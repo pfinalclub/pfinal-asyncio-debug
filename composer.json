@@ -2,6 +2,8 @@
     "name": "pfinalclub/asyncio-debug",
     "description": "Debug tools for pfinal/asyncio",
     "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
     "require-dev": {
         "pfinalclub/asyncio": "^3.0",
         "phpunit/phpunit": "^10.0"
