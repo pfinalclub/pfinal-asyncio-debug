@@ -108,6 +108,7 @@ final readonly class DebugEvent
      * @param int|null $taskId Task ID（可选）
      * @param array $payloadData 载荷数据数组（可选）
      * @return self 新的调试事件实例
+     * @throws \Pfinalclub\AsyncioDebug\Exception\InvalidEventException
      */
     public static function create(
         EventType $type,
@@ -115,9 +116,32 @@ final readonly class DebugEvent
         ?int $taskId = null,
         array $payloadData = []
     ): self {
+        // 参数验证
+        if ($fiberId < 0) {
+            throw \Pfinalclub\AsyncioDebug\Exception\InvalidEventException::invalidFiberId(
+                $fiberId,
+                ['type' => $type->value, 'task_id' => $taskId]
+            );
+        }
+        
+        if ($taskId !== null && $taskId < 0) {
+            throw \Pfinalclub\AsyncioDebug\Exception\InvalidEventException::invalidFiberId(
+                $taskId,
+                ['type' => $type->value, 'fiber_id' => $fiberId]
+            );
+        }
+        
+        $timestamp = microtime(true);
+        if ($timestamp <= 0) {
+            throw \Pfinalclub\AsyncioDebug\Exception\InvalidEventException::invalidTimestamp(
+                $timestamp,
+                ['type' => $type->value, 'fiber_id' => $fiberId]
+            );
+        }
+        
         return new self(
             $type,
-            microtime(true), // 自动生成高精度时间戳
+            $timestamp, // 自动生成高精度时间戳
             $fiberId,
             $taskId,
             EventPayload::create($payloadData) // 自动创建载荷对象

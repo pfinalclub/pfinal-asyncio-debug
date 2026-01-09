@@ -75,12 +75,15 @@ final class RingBuffer
      * 构造函数
      * 
      * @param int $size 缓冲区大小，必须为正数
-     * @throws \InvalidArgumentException 当 size <= 0 时抛出
+     * @throws \Pfinalclub\AsyncioDebug\Exception\DebugException 当 size <= 0 时抛出
      */
     public function __construct(private readonly int $size)
     {
         if ($size <= 0) {
-            throw new \InvalidArgumentException('Buffer size must be positive');
+            throw \Pfinalclub\AsyncioDebug\Exception\DebugException::configError(
+                '缓冲区大小必须为正数',
+                ['size' => $size]
+            );
         }
     }
 

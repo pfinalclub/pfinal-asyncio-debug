@@ -61,11 +61,20 @@ final class LogExporter implements ExporterInterface
      * 
      * @param iterable<DebugEvent> $events 要导出的事件集合
      * @return void
+     * @throws \Pfinalclub\AsyncioDebug\Exception\ExporterException
      */
     public function export(iterable $events): void
     {
-        foreach ($events as $event) {
-            $this->logEvent($event);
+        try {
+            foreach ($events as $event) {
+                $this->logEvent($event);
+            }
+        } catch (\Throwable $e) {
+            // 重新抛出为导出器异常，保留原始异常信息
+            throw \Pfinalclub\AsyncioDebug\Exception\ExporterException::logExportError(
+                sprintf('日志导出失败: %s', $e->getMessage()),
+                ['exception' => get_class($e), 'code' => $e->getCode()]
+            );
         }
     }
 
