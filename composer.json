@@ -1,0 +1,23 @@
+{
+    "name": "pfinalclub/asyncio-debug",
+    "description": "Debug tools for pfinal/asyncio",
+    "type": "library",
+    "require-dev": {
+        "pfinalclub/asyncio": "^3.0",
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pfinalclub\\AsyncioDebug\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "pfinalclub"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "pfinalclub/asyncio": "^3.0"
+    }
+}
